@@ -3,7 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import styled from "styled-components";
 import { auth } from "../firebase";
 
-const Message = ({ user, message }) => {
+const Message = ({ user, message, bottom }) => {
   const [userLoggedIn] = useAuthState(auth);
 
   const TypeOfMessage = user === userLoggedIn.email ? Sender : Receiver;
@@ -16,6 +16,7 @@ const Message = ({ user, message }) => {
           {message.timestamp ? moment(message.timestamp).format("LT") : "..."}
         </Timestamp>
       </TypeOfMessage>
+      {bottom}
     </Container>
   );
 };

@@ -35,6 +35,17 @@ const ChatScreen = ({ chat, messages }) => {
       .where("email", "==", getRecipientEmail(chat.users, user))
   );
 
+  const scrollToBottom = () => {
+    endOfMessageRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
+  const showBottom = () => {
+    endOfMessageRef.current.scrollIntoView();
+  };
+
   const showMessages = () => {
     if (messagesSnapshot) {
       return messagesSnapshot.docs.map((message) => (
@@ -45,6 +56,7 @@ const ChatScreen = ({ chat, messages }) => {
             ...message.data(),
             timestamp: message.data().timestamp?.toDate().getTime(),
           }}
+          bottom={showBottom()}
         />
       ));
     } else {
@@ -52,13 +64,6 @@ const ChatScreen = ({ chat, messages }) => {
         <Message key={message.id} user={message.user} message={message} />
       ));
     }
-  };
-
-  const scrollToBottom = () => {
-    endOfMessageRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
   };
 
   const sendMessage = (e) => {
