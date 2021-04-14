@@ -1,3 +1,5 @@
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
 import { Avatar, Icon, IconButton } from "@material-ui/core";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import SendIcon from "@material-ui/icons/Send";
@@ -14,7 +16,6 @@ import getRecipientEmail from "../utils/getRecipientEmail";
 import TimeAgo from "timeago-react";
 import { useRef } from "react";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import dynamic from "next/dynamic";
 
 const ChatScreen = ({ chat, messages }) => {
   const [user] = useAuthState(auth);
@@ -23,10 +24,6 @@ const ChatScreen = ({ chat, messages }) => {
   const router = useRouter();
   const endOfMessageRef = useRef(null);
   const inputRef = useRef(null);
-
-  const Picker = dynamic(() => import("emoji-picker-react"), {
-    ssr: false,
-  });
 
   const [messagesSnapshot] = useCollection(
     db
@@ -54,12 +51,12 @@ const ChatScreen = ({ chat, messages }) => {
     setShowEmojis(!showEmojis);
   };
 
-  const onEmojiClick = (event, emojiObject) => {
+  const onEmojiClick = (emoji, event) => {
     const ref = inputRef.current;
     ref.focus();
     const start = input.substring(0, ref.selectionStart);
     const end = input.substring(ref.selectionStart);
-    const text = start + emojiObject.emoji + end;
+    const text = start + emoji.native + end;
     setInput(text);
   };
 
@@ -154,11 +151,13 @@ const ChatScreen = ({ chat, messages }) => {
       </MessageContainer>
       <EmojiContainer>
         <Picker
-          onEmojiClick={onEmojiClick}
-          pickerStyle={{
-            width: "100%",
-            position: "sticky",
-            bottom: "0",
+          onClick={onEmojiClick}
+          emojiTooltip={true}
+          useButton={false}
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "auto",
           }}
         />
       </EmojiContainer>
@@ -192,8 +191,6 @@ const Input = styled.input`
   border-radius: 10px;
   background-color: whitesmoke;
   padding: 20px;
-  margin-left: 15px;
-  margin-right: 15px;
 `;
 
 const EmojiList = styled.div`
@@ -216,7 +213,6 @@ const Header = styled.div`
 `;
 
 const HeaderInformation = styled.div`
-  margin-left: 15px;
   flex: 1;
   > h3 {
     margin-bottom: 10px;
@@ -224,6 +220,14 @@ const HeaderInformation = styled.div`
   > p {
     font-size: 14px;
     color: gray;
+  }
+  @media (max-width: 768px) {
+    > h3 {
+      width: 228px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 `;
 

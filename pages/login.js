@@ -38,6 +38,9 @@ const Container = styled.div`
   place-items: center;
   height: 100vh;
   background-color: whitesmoke;
+  @media (max-width: 768px) {
+    background: none;
+  }
 `;
 
 const LoginContainer = styled.div`
