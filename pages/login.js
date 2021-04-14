@@ -12,6 +12,7 @@ const Login = () => {
     <Container>
       <Head>
         <title>Login</title>
+        <link rel="icon" href="/images.png" />
       </Head>
       <LoginContainer>
         <Logo src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXSzML_98pBX92MNo-u4_m-YQ11RLzpRC04Q&usqp=CAU" />

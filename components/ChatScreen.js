@@ -1,11 +1,10 @@
-import { Avatar, IconButton } from "@material-ui/core";
+import { Avatar, Icon, IconButton } from "@material-ui/core";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
-import MicIcon from "@material-ui/icons/Mic";
+import SendIcon from "@material-ui/icons/Send";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import styled from "styled-components";
 import { auth, db } from "../firebase";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import { useCollection } from "react-firebase-hooks/firestore";
 import firebase from "firebase";
@@ -14,12 +13,20 @@ import { useState } from "react";
 import getRecipientEmail from "../utils/getRecipientEmail";
 import TimeAgo from "timeago-react";
 import { useRef } from "react";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import dynamic from "next/dynamic";
 
 const ChatScreen = ({ chat, messages }) => {
   const [user] = useAuthState(auth);
   const [input, setInput] = useState("");
+  const [showEmojis, setShowEmojis] = useState(null);
   const router = useRouter();
   const endOfMessageRef = useRef(null);
+  const inputRef = useRef(null);
+
+  const Picker = dynamic(() => import("emoji-picker-react"), {
+    ssr: false,
+  });
 
   const [messagesSnapshot] = useCollection(
     db
@@ -40,6 +47,20 @@ const ChatScreen = ({ chat, messages }) => {
       behavior: "smooth",
       block: "start",
     });
+  };
+
+  const handleShowEmojis = () => {
+    inputRef.current.focus();
+    setShowEmojis(!showEmojis);
+  };
+
+  const onEmojiClick = (event, emojiObject) => {
+    const ref = inputRef.current;
+    ref.focus();
+    const start = input.substring(0, ref.selectionStart);
+    const end = input.substring(ref.selectionStart);
+    const text = start + emojiObject.emoji + end;
+    setInput(text);
   };
 
   const showBottom = () => {
@@ -83,6 +104,8 @@ const ChatScreen = ({ chat, messages }) => {
       photoURL: user.photoURL,
     });
 
+    if (showEmojis) setShowEmojis(!showEmojis);
+
     setInput("");
     scrollToBottom();
   };
@@ -90,14 +113,19 @@ const ChatScreen = ({ chat, messages }) => {
   const recipient = recipientSnapshot?.docs?.[0]?.data();
   const recipientEmail = getRecipientEmail(chat.users, user);
 
+  const EmojiContainer = showEmojis ? EmojiList : HiddenList;
+
   return (
     <Container>
       <Header>
-        {recipient ? (
-          <Avatar src={recipient?.photoURL} />
-        ) : (
-          <Avatar>{recipientEmail[0]}</Avatar>
-        )}
+        <IconButton onClick={() => router.push("/")}>
+          <ArrowBackIcon />
+          {recipient ? (
+            <Avatar src={recipient?.photoURL} />
+          ) : (
+            <Avatar>{recipientEmail[0]}</Avatar>
+          )}
+        </IconButton>
 
         <HeaderInformation>
           <h3>{recipientEmail}</h3>
@@ -118,27 +146,36 @@ const ChatScreen = ({ chat, messages }) => {
           <IconButton>
             <AttachFileIcon />
           </IconButton>
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
         </HeaderIcons>
       </Header>
       <MessageContainer>
         {showMessages()}
         <EndOfMessage ref={endOfMessageRef} />
       </MessageContainer>
+      <EmojiContainer>
+        <Picker
+          onEmojiClick={onEmojiClick}
+          pickerStyle={{
+            width: "100%",
+            position: "sticky",
+            bottom: "0",
+          }}
+        />
+      </EmojiContainer>
 
       <InputContainer>
-        <InsertEmoticonIcon />
+        <IconButton onClick={handleShowEmojis}>
+          <InsertEmoticonIcon />
+        </IconButton>
         <Input
           value={input}
           placeholder="Messages..."
           onChange={(e) => setInput(e.target.value)}
+          ref={inputRef}
         />
-        <button hidden disabled={!input} type="submit" onClick={sendMessage}>
-          Send Message
-        </button>
-        <MicIcon />
+        <IconButton disabled={!input} type="submit" onClick={sendMessage}>
+          <SendIcon style={{ color: "#34c3eb" }} />
+        </IconButton>
       </InputContainer>
     </Container>
   );
@@ -159,13 +196,20 @@ const Input = styled.input`
   margin-right: 15px;
 `;
 
+const EmojiList = styled.div`
+  display: inline;
+`;
+
+const HiddenList = styled.div`
+  display: none;
+`;
+
 const Header = styled.div`
   position: sticky;
   background-color: white;
   z-index: 100;
   top: 0;
   display: flex;
-  padding: 11px;
   height: 80px;
   align-items: center;
   border-bottom: 1px solid whitesmoke;
@@ -175,7 +219,7 @@ const HeaderInformation = styled.div`
   margin-left: 15px;
   flex: 1;
   > h3 {
-    margin-bottom: 3px;
+    margin-bottom: 10px;
   }
   > p {
     font-size: 14px;
@@ -184,7 +228,7 @@ const HeaderInformation = styled.div`
 `;
 
 const EndOfMessage = styled.div`
-  margin-bottom: 50px;
+  margin-bottom: 1px;
 `;
 
 const HeaderIcons = styled.div``;

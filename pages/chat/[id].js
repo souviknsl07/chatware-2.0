@@ -13,8 +13,11 @@ const Chat = ({ chat, messages }) => {
     <Container>
       <Head>
         <title>Chat with {getRecipientEmail(chat.users, user)}</title>
+        <link rel="icon" href="/images.png" />
       </Head>
-      <Sidebar />
+      <SideDiv>
+        <Sidebar />
+      </SideDiv>
       <ChatContainer>
         <ChatScreen chat={chat} messages={messages} />
       </ChatContainer>
@@ -58,6 +61,12 @@ export async function getServerSideProps(context) {
     },
   };
 }
+
+const SideDiv = styled.div`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
 
 const Container = styled.div`
   display: flex;

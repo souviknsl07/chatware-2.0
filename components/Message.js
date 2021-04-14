@@ -31,9 +31,15 @@ const MessageElement = styled.p`
   border-radius: 8px;
   margin: 10px;
   min-width: 60px;
+  max-width: 65vw;
   padding-bottom: 26px;
   position: relative;
   text-align: right;
+  word-wrap: break-word;
+
+  @media (max-width: 768px) {
+    max-width: 75vw;
+  }
 `;
 
 const Sender = styled(MessageElement)`

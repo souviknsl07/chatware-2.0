@@ -8,6 +8,8 @@ import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import Chat from "./Chat";
+import { useState } from "react";
+import getRecipientEmail from "../utils/getRecipientEmail";
 
 const Sidebar = () => {
   const [user] = useAuthState(auth);
@@ -16,6 +18,7 @@ const Sidebar = () => {
     .where("users", "array-contains", user.email);
 
   const [chatSnapshot] = useCollection(userChatRef);
+  const [search, setSearch] = useState("");
 
   const createChat = () => {
     const input = prompt(
@@ -57,14 +60,29 @@ const Sidebar = () => {
       </Header>
       <Search>
         <SearchIcon />
-        <SearchInput placeholder="Search in Chats" />
+        <SearchInput
+          type="search"
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search in Chats"
+          value={search}
+        />
       </Search>
       <SidebarButton onClick={createChat}>Start a new chat</SidebarButton>
       {/* List of Chats */}
       {/* ? means optional chaining */}
-      {chatSnapshot?.docs.map((chat) => (
-        <Chat key={chat.id} id={chat.id} users={chat.data().users} />
-      ))}
+      {chatSnapshot?.docs
+        .filter((chat) => {
+          if (search == "") return chat;
+          else if (
+            getRecipientEmail(chat.data().users, user)
+              .toLowerCase()
+              .includes(search.toLowerCase())
+          )
+            return chat;
+        })
+        .map((chat) => (
+          <Chat key={chat.id} id={chat.id} users={chat.data().users} />
+        ))}
     </Container>
   );
 };
@@ -78,6 +96,11 @@ const Container = styled.div`
   min-width: 300px;
   max-width: 350px;
   overflow-y: scroll;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    flex: 1;
+  }
 
   ::-webkit-scrollbar {
     display: none;
