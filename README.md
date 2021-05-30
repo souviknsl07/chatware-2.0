@@ -28,7 +28,7 @@ Run commands
 
 ### Or using yarn
 
-Run commands
+Run command
 
 1. `npm install --global yarn`
 
