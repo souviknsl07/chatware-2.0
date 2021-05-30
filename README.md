@@ -1,34 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ChatWare 2.0
+![Chat with souvikn17@gmail com - Google Chrome 30-05-2021 20_31_43](https://user-images.githubusercontent.com/53038576/120109338-a1d80780-c186-11eb-88fd-d8a5f8e922b1.png)
+## Fully Mobile Responsive
+![Chat with souvikn17@gmail com - Google Chrome 30-05-2021 20_33_30](https://user-images.githubusercontent.com/53038576/120109342-a6042500-c186-11eb-969d-f8c3a32e361e.png)
+![Chat with souvikn17@gmail com - Google Chrome 30-05-2021 20_33_25](https://user-images.githubusercontent.com/53038576/120109347-a8ff1580-c186-11eb-9e83-b6fc10204a21.png)
 
-## Getting Started
+**To contribute fork the repository and set it up on your local machine.**<br/>
 
-First, run the development server:
+`All kinds of contributions are welcomed` 🤝<br/>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Prerequisites
+- Have knowledge about Reactjs and Nextjs.
+- Know how Tailwind CSS works.
+- Know how to implement firebase firestore.
+- Know how to implement firebase-auth.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Follow the steps below to install it on your local machine.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Installation Steps
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### Using npm
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Run commands
 
-## Learn More
+1. `npm install`
 
-To learn more about Next.js, take a look at the following resources:
+2. `npm run dev`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Or using yarn
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Run commands
 
-## Deploy on Vercel
+1. `npm install --global yarn`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. `yarn install`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+3. `yarn run dev`
+
+It will start the development server at `localhost:3000`
+
+Give it a ⭐ if you liked it.
