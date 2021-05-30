@@ -10,7 +10,7 @@
 
 ## Prerequisites
 - Have knowledge about Reactjs and Nextjs.
-- Know how Tailwind CSS works.
+- Know how to use Styled Components.
 - Know how to implement firebase firestore.
 - Know how to implement firebase-auth.
 
