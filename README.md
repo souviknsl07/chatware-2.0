@@ -1,6 +1,9 @@
 # ChatWare 2.0
 This is a 1 on 1 Chatting web app. Built using Nextjs, Firebase, Styled Components, etc. You can play around with it by going to the link below.
 
+## Watch it Live
+[chatware-2.vercel.app](https://chatware-2.vercel.app)
+
 ![Chat with souvikn17@gmail com - Google Chrome 30-05-2021 20_31_43](https://user-images.githubusercontent.com/53038576/120109338-a1d80780-c186-11eb-88fd-d8a5f8e922b1.png)
 ## Fully Mobile Responsive
 ![Chat with souvikn17@gmail com - Google Chrome 30-05-2021 20_33_30](https://user-images.githubusercontent.com/53038576/120109342-a6042500-c186-11eb-969d-f8c3a32e361e.png)
